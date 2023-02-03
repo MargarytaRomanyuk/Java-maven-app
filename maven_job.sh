@@ -1,1 +1,1 @@
- maven --version
+python3 --version
