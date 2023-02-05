@@ -10,7 +10,6 @@ pipeline {
                 }
             }
         }
-      }
         stage("build jar") {
             steps {
                 script {
