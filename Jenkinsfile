@@ -10,9 +10,9 @@ pipeline {
                 }
             }
         }
-      agent{ 
-          docker { image 'maven:latest' }
       }
+    agent{ 
+          docker { image 'maven:latest' }
         stage("build jar") {
             steps {
                 script {
