@@ -12,7 +12,8 @@ def buildImage() {
        // sh 'docker push  push magharyta/my-repo:jma-1.1.0'
        sh 'ls -la'
        sh 'pwd'
-       sh 'which docker'
+       sh 'docker --version'
+       sh "echo $USER"
     }
 } 
 
