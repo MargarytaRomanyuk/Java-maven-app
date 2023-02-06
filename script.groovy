@@ -2,6 +2,7 @@ def buildJar() {
     echo "building the application..."
     sh 'mvn package'
     sh 'mvn --version'
+    sh 'ls -la'
 } 
 
 def buildImage() {
