@@ -1,5 +1,3 @@
-def gv
-
 pipeline {
     agent any
     stages {
@@ -12,27 +10,21 @@ pipeline {
         }
         stage("build jar") {
                 agent {
-                   dockerfile {
-                       filename 'Dockerfile.build'
-                       dir 'build'
-                       label 'my-defined-label'
-                       additionalBuildArgs  '--build-arg version=1.0.2'
-                       args '-v /tmp:/tmp'
-                   }
+                    docker { image 'maven:latest' }
                 }
             steps {
                 script {
                     echo "building jar"
                     gv.buildJar()
-                    gv.buildImage()
                 }
             }
         }
         stage("build image") {
+            agent { dockerfile true }
             steps {
                 script {
                     echo "building image"
-                 //   gv.buildImage()
+                    gv.buildImage()
                 }
             }
         }
