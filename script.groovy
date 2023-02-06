@@ -1,8 +1,7 @@
 def buildJar() {
     echo "building the application..."
-    sh 'mvn package'
-    // sh 'mvn --version'
-    sh 'which docker'
+    // sh 'mvn package'
+    sh 'mvn --version'
 } 
 
 def buildImage() {
