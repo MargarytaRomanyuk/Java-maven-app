@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    parameters {
+        booleanParam(name: 'executeTest', defaultValue: true, description: '')
+    }
     stages {
         stage("init") {
             steps {
@@ -8,10 +11,21 @@ pipeline {
                 }
             }
         }
-        stage("build jar") {
-                agent {
-                    docker { image 'maven:latest' }
+        stage ("test app") {
+             agent {
+                docker { image 'maven:latest' }
+            }
+            steps {
+                script {
+                    echo "testing app"
+                    gv.testPrejar()
                 }
+            }
+        }
+        stage("build jar") {
+            agent {
+                docker { image 'maven:latest' }
+            }
             steps {
                 script {
                     echo "building jar"

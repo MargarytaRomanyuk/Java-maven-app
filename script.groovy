@@ -1,7 +1,11 @@
-def buildJar() {
-    echo "Testing and building the application..."
+def testPrejar() {
+    echo "Testing the application..."
     sh 'mvn test'
-    sh 'mvn package'
+}
+
+def buildJar() {
+    echo "Building the application..."
+    sh 'mvn package -DskipTests'
 } 
 
 def buildImage() {
