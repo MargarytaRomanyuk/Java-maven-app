@@ -80,7 +80,7 @@ pipeline {
                     gv.deployApp()
                 }
             }
-        }
+        }     
         stage('commit update version') {
             agent any
             steps {
@@ -92,7 +92,7 @@ pipeline {
                         //sh 'git config --global user.email "jenkins@fp.com"'
                         //sh 'git config --global user.name "jenkins"'
                         sh 'git config --list'
-                        sh "git remote set-url origin ${USER}:${KEYFILE}@github.com:MargarytaRomanyuk/Java-maven-app.git"
+                        sh "git remote set-url origin ssh://@github.com:MargarytaRomanyuk/Java-maven-app.git"
                         // git@github.com:MargarytaRomanyuk/Java-maven-app.git
                         // https://github.com/MargarytaRomanyuk/Java-maven-app.git
                         sh 'git add .'
