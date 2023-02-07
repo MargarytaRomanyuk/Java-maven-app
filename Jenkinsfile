@@ -90,7 +90,7 @@ pipeline {
                         //sh 'git config --global user.email "jenkins@fp.com"'
                         //sh 'git config --global user.name "jenkins"'
                         sh 'git config list'
-                        sh "git remote set-url origin https://github.com\/\${USER}/Java-maven-app.git"
+                        sh "git remote set-url origin https://${USER}:${PASSWD}@github.com/MargarytaRomanyuk/Java-maven-app.git"
                         // https://github.com/MargarytaRomanyuk/Java-maven-app.git
                         sh 'git add .'
                         sh 'git commit -m "CI: version bump" '
