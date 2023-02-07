@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    parameters {
-        booleanParam(name: 'executeTest', defaultValue: true, description: '')
-    }
+    //parameters {
+      //  booleanParam(name: 'executeTest', defaultValue: true, description: '')
+   // }
     stages {
         stage("init") {
             steps {
@@ -23,6 +23,10 @@ pipeline {
             }
         }
         stage("build jar") {
+            when {
+                expression {
+                    BRANCH_NAME == 'dev'
+                }
              agent {
                 docker { image 'maven:latest' }
             }
@@ -34,6 +38,10 @@ pipeline {
             }
         }
         stage("build image") {
+            when {
+                expression {
+                    BRANCH_NAME == 'dev'
+                }
             agent any
             steps {
                 script {
@@ -42,7 +50,11 @@ pipeline {
                 }
             }
         }
-        stage("deploy") {
+        stage("deploy") {  
+            when {
+                expression {
+                    BRANCH_NAME == 'main'
+                }            
             steps {
                 script {
                     echo "deploying"
