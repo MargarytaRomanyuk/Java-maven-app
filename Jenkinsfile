@@ -85,12 +85,14 @@ pipeline {
             agent any
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'ssh-maven-app', passwordVariable: 'PASSWD', usernameVariable: 'USER')])
+                    withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2-git', keyFileVariable: 'KEYFILE', passphraseVariable: '', usernameVariable: 'USER')])
+                    // withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2-git', keyFileVariable: 'KEYFILE')])
+                    //withCredentials([usernamePassword(credentialsId: 'ssh-maven-app', passwordVariable: 'PASSWD', usernameVariable: 'USER')])
                     {
                         //sh 'git config --global user.email "jenkins@fp.com"'
                         //sh 'git config --global user.name "jenkins"'
                         sh 'git config --list'
-                        sh "git remote set-url origin https://${USER}:${PASSWD}@github.com/MargarytaRomanyuk/Java-maven-app.git"
+                        sh "git remote set-url origin https://${USER}:${KEYFILE}@github.com/MargarytaRomanyuk/Java-maven-app.git"
                         // https://github.com/MargarytaRomanyuk/Java-maven-app.git
                         sh 'git add .'
                         sh 'git commit -m "CI: version bump" '
