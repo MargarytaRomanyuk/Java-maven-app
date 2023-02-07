@@ -23,8 +23,9 @@ pipeline {
             }
         }
         stage("build jar") {
-            tools { maven 'maven-3.8'
-                  }
+             agent {
+                docker { image 'maven:latest' }
+            }
             steps {
                 script {
                     echo "building jar"
