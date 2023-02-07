@@ -27,6 +27,7 @@ pipeline {
                 expression {
                     BRANCH_NAME == 'dev'
                 }
+            }
              agent {
                 docker { image 'maven:latest' }
             }
@@ -42,6 +43,7 @@ pipeline {
                 expression {
                     BRANCH_NAME == 'dev'
                 }
+            }                
             agent any
             steps {
                 script {
@@ -54,7 +56,8 @@ pipeline {
             when {
                 expression {
                     BRANCH_NAME == 'main'
-                }            
+                }
+            }
             steps {
                 script {
                     echo "deploying"
