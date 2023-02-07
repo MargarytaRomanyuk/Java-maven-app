@@ -1,19 +1,24 @@
+def testPrejar() {
+    echo "Testing the application..."
+    sh 'mvn test'
+}
+
 def buildJar() {
-    echo "building the application..."
-    sh 'mvn package'
+    echo "Building the application..."
+    sh 'mvn package -DskipTests'
 } 
 
 def buildImage() {
-    echo "building the docker image..."
-    withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-        sh 'docker build -t nanajanashia/demo-app:jma-2.0 .'
-        sh "echo $PASS | docker login -u $USER --password-stdin"
-        sh 'docker push nanajanashia/demo-app:jma-2.0'
+    echo "Building the docker image..."
+   withCredentials([usernamePassword(credentialsId: 'dockerhub-credenntials', passwordVariable: 'PASSWD', usernameVariable: 'USER')]) {
+       sh 'docker build -t magharyta/my-repo:jma-1.1.0 .'
+       sh "echo $PASSWD | docker login -u $USER --password-stdin"
+       sh 'docker push magharyta/my-repo:jma-1.1.0'
     }
 } 
 
 def deployApp() {
-    echo 'deploying the application...'
+    echo 'Deploying the application...'
 } 
 
 return this
