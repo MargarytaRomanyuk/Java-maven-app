@@ -23,7 +23,7 @@ pipeline {
             }
         }
         stage("build jar") {
-            tools { maven 'Maven'
+            tools { maven 'maven-3.8'
                   }
             steps {
                 script {
