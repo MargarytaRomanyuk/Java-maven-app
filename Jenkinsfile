@@ -82,6 +82,7 @@ pipeline {
             }
         }
         stage('commit update version') {
+            agent any
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'ssh-maven-app', passwordVariable: 'PASSWD', usernameVariable: 'USER')])
