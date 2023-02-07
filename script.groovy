@@ -5,7 +5,7 @@ def testPrejar() {
 
 def buildJar() {
     echo "Building the application..."
-    sh 'mvn package -DskipTests'
+    sh 'mvn clean package -DskipTests'
 } 
 
 def buildImage() {
