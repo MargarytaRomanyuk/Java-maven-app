@@ -13,7 +13,7 @@ pipeline {
                  //docker { image 'maven:latest' }
             // }
             tools {
-                maven 'maven 3.8'
+                maven 'maven-3.8'
             }
             steps {
                 script { 
