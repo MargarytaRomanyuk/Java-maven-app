@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    //parameters {
-      //  booleanParam(name: 'executeTest', defaultValue: true, description: '')
-   // }
     stages {
         stage("init") {
             steps {
@@ -12,9 +9,12 @@ pipeline {
             }
         }
         stage("incremental version") {
-            agent {
-                 docker { image 'maven:latest' }
-             }
+            //agent {
+                 //docker { image 'maven:latest' }
+            // }
+            tools {
+                maven 'maven 3.8'
+            }
             steps {
                 script { 
                     echo 'Parsing and incrementing app version...'
