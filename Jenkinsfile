@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools {
+        maven 'maven-3.8'
+    }
     stages {
         stage("init") {
             steps {
@@ -12,9 +15,6 @@ pipeline {
             //agent {
                  //docker { image 'maven:latest' }
             // }
-            tools {
-                maven 'maven-3.8'
-            }
             steps {
                 script { 
                     echo 'Parsing and incrementing app version...'
@@ -28,9 +28,9 @@ pipeline {
             }
         }
         stage ("test app") {
-             agent {
-                 docker { image 'maven:latest' }
-             }
+             //agent {
+                // docker { image 'maven:latest' }
+            // }
             steps {
                 script {
                     echo "testing app"
@@ -44,9 +44,9 @@ pipeline {
                     BRANCH_NAME == 'dev'
                 }
             }
-             agent {
-                docker { image 'maven:latest' }
-            }
+             //agent {
+                //docker { image 'maven:latest' }
+           // }
             steps {
                 script {
                     echo "building jar"
@@ -60,7 +60,7 @@ pipeline {
                     BRANCH_NAME == 'dev'
                 }
             }                
-            agent any
+            //agent any
             steps {
                 script {
                     echo "building image"
@@ -82,19 +82,13 @@ pipeline {
             }
         }     
         stage('commit update version') {
-            agent any
+            //agent any
             steps {
-                script {
-                    // withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2-git', keyFileVariable: 'KEYFILE', passphraseVariable: '', usernameVariable: 'USER')])
-                    // withCredentials([sshUserPrivateKey(credentialsId: 'ssh-ec2-git', keyFileVariable: 'KEYFILE')])
+                script {                    
                     withCredentials([usernamePassword(credentialsId: 'git-token', passwordVariable: 'PASSWD', usernameVariable: 'USER')])
                     {
-                        //sh 'git config --global user.email "jenkins@fp.com"'
-                        //sh 'git config --global user.name "jenkins"'
                         sh 'git config --list'
                         sh "git remote set-url origin https://${PASSWD}@github.com/MargarytaRomanyuk/Java-maven-app.git"
-                        // git@github.com:MargarytaRomanyuk/Java-maven-app.git
-                        // https://github.com/MargarytaRomanyuk/Java-maven-app.git
                         sh 'git add .'
                         sh 'git commit -m "CI: version bump" '
                         sh 'git push origin HEAD:dev'
