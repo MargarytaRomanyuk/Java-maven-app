@@ -1,8 +1,8 @@
 pipeline {
     agent any
-    //parameters {
-      //  booleanParam(name: 'executeTest', defaultValue: true, description: '')
-   // }
+    tools {
+        maven 'maven-3.8'
+    }
     stages {
         stage("init") {
             steps {
@@ -12,9 +12,9 @@ pipeline {
             }
         }
         stage("incremental version") {
-            agent {
-                 docker { image 'maven:latest' }
-             }
+            //agent {
+                 //docker { image 'maven:latest' }
+            // }
             steps {
                 script { 
                     echo 'Parsing and incrementing app version...'
@@ -28,9 +28,9 @@ pipeline {
             }
         }
         stage ("test app") {
-             agent {
-                 docker { image 'maven:latest' }
-             }
+             //agent {
+                // docker { image 'maven:latest' }
+            // }
             steps {
                 script {
                     echo "testing app"
@@ -44,9 +44,9 @@ pipeline {
                     BRANCH_NAME == 'dev'
                 }
             }
-             agent {
-                docker { image 'maven:latest' }
-            }
+             //agent {
+                //docker { image 'maven:latest' }
+           // }
             steps {
                 script {
                     echo "building jar"
@@ -60,7 +60,7 @@ pipeline {
                     BRANCH_NAME == 'dev'
                 }
             }                
-            agent any
+            //agent any
             steps {
                 script {
                     echo "building image"
@@ -80,6 +80,21 @@ pipeline {
                     gv.deployApp()
                 }
             }
+        }     
+        stage('commit update version') {
+            //agent any
+            steps {
+                script {                    
+                    withCredentials([usernamePassword(credentialsId: 'git-token', passwordVariable: 'PASSWD', usernameVariable: 'USER')])
+                    {
+                        sh 'git config --list'
+                        sh "git remote set-url origin https://${PASSWD}@github.com/MargarytaRomanyuk/Java-maven-app.git"
+                        sh 'git add .'
+                        sh 'git commit -m "CI: version bump" '
+                        sh 'git push origin HEAD:dev'
+                    }                    
+                }
+            }
         }
-    }   
+    }
 }
